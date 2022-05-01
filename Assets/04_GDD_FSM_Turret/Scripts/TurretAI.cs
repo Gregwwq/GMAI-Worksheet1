@@ -138,7 +138,6 @@ public class TurretAI : MonoBehaviour
 			missileNum++;
 			time = 0.0f;
 		}
-
 	}
 
 	void Track()

@@ -6,11 +6,12 @@ public class IdleState : FSMState<string>
 {
     const string Name = "Idle";
 
-    GameObject player;
+    // the main central script that manages all the states
+    TurretAIFSM main;
 
-    public IdleState(FSM<string> _fsm, GameObject _player) : base(_fsm, Name)
+    public IdleState(FSM<string> _fsm, TurretAIFSM _main) : base(_fsm, Name)
     {
-        player = _player;
+        main = _main;
     }
 
     public override void Enter()
@@ -20,7 +21,11 @@ public class IdleState : FSMState<string>
 
     public override void Execute()
     {
-
+        // checking if the player is within tracking range
+        if (main.PlayerDistanceSquared < main.MaxTrackDistanceSquared)
+        {
+            fsm.SetState("Track");
+        }
     }
 
     public override void Exit()
