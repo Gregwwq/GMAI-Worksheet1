@@ -27,7 +27,7 @@ public class TrackState : FSMState<string>
             fsm.SetState("Idle");
             return;
         }
-        
+
         // checking if the player has entered the missile range
         if (main.PlayerDistanceSquared < main.MaxTrackDistanceSquared * 0.66f)
         {
@@ -37,6 +37,9 @@ public class TrackState : FSMState<string>
 
         // tracking the player
         main.Track();
+
+        // checking if the machine is broken
+        main.CheckBroken();
     }
 
     public override void Exit()

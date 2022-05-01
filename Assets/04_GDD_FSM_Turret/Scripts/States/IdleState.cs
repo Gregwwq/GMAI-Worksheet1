@@ -25,7 +25,11 @@ public class IdleState : FSMState<string>
         if (main.PlayerDistanceSquared < main.MaxTrackDistanceSquared)
         {
             fsm.SetState("Track");
+            return;
         }
+
+        // checking if the machine is broken
+        main.CheckBroken();
     }
 
     public override void Exit()

@@ -32,13 +32,18 @@ public class BeamState : FSMState<string>
             fsm.SetState("Missile");
         }
 
-        main.Track();
-
         // checking if the sound effect is already playing
         if (!main.Source.isPlaying)
         {
             main.Source.PlayOneShot(main.laser, 1.0f);
         }
+
+        // tracking the player
+        main.Track();
+
+
+        // checking if the machine is broken
+        main.CheckBroken();
     }
 
     public override void Exit()

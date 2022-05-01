@@ -5,7 +5,9 @@ using System.Collections.Generic;
 public class TurretAIFSM : MonoBehaviour
 {
     FSM<string> fsm = new FSM<string>();
-    FSMState<string> idleState, trackState, missileState, beamState;
+    FSMState<string> idleState, trackState, missileState, beamState, brokenState;
+
+    public bool Broken { private get; set; }
 
     public Rigidbody bullet;
     public AudioClip laser;
@@ -47,7 +49,7 @@ public class TurretAIFSM : MonoBehaviour
 
     public TurretAIFSM()
     {
-
+        Broken = false;
     }
 
     void Start()
@@ -68,11 +70,13 @@ public class TurretAIFSM : MonoBehaviour
         trackState = new TrackState(fsm, this);
         missileState = new MissileState(fsm, this);
         beamState = new BeamState(fsm, this);
+        brokenState = new BrokenState(fsm);
 
         fsm.AddState(idleState);
         fsm.AddState(trackState);
         fsm.AddState(missileState);
         fsm.AddState(beamState);
+        fsm.AddState(brokenState);
 
         fsm.SetState("Idle");
     }
@@ -99,5 +103,14 @@ public class TurretAIFSM : MonoBehaviour
         float step = turnSpeed * Time.deltaTime;
         Vector3 newDir = Vector3.RotateTowards(Head.forward, PlayerDirection, step, 0.0F);
         Head.rotation = Quaternion.LookRotation(newDir);
+    }
+
+    // public function for all the states to be able to check if the turret is broken
+    public void CheckBroken()
+    {
+        if (Broken)
+        {
+            fsm.SetState("Broken");
+        }
     }
 }

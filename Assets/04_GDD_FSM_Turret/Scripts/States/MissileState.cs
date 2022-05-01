@@ -11,8 +11,8 @@ public class MissileState : FSMState<string>
 
     int missileNum = 0;
     int maxMissileNum;
-    float bulletSpeed = 10f;
     float time = 0f;
+    float bulletSpeed = 10f;
     float shootDelay = .25f;
 
     public MissileState(FSM<string> _fsm, TurretAIFSM _main) : base(_fsm, Name)
@@ -49,6 +49,9 @@ public class MissileState : FSMState<string>
         // tracking and shooting at the player
         main.Track();
         ShootBullet();
+
+        // checking if the machine is broken
+        main.CheckBroken();
     }
 
     public override void Exit()
